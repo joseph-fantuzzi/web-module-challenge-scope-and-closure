@@ -28,12 +28,21 @@ console.log(processFirstItem(['foo','bar'],function(str){return str+str}));
   Study the code for counter1 and counter2, then answer the questions below.
   
   1. What is the difference between counter1 and counter2?
-  
+    
+      Counter 1 has a nested function within a function and is using closure within the nested counter function to access the count variable in the counterMaker function. Counter 1 is then creating a variable globally called counter1 that is invoking the counterMaker function, which returns the nested function within. If the counter1 variable is invoked that will invoke the nested function of counter and will add one to the counter variable.
+      Counter 2 is declaring the count variable globally, not within the function scope. Then, counter2 is creating a function called counter2 that, once invoked, will return the counter variable plus 1.
+
   2. Which of the two uses a closure? How can you tell?
   
+      Counter 1 code uses closure because of the nested function within the counterMaker function. Counter 2 does not use a closure because the count variable is globally assigned and the function accesses that variable globally.
+
   3. In what scenario would the counter1 code be preferable? In what scenario would 
      counter2 be better?  
+
+      Counter 1 code would be preferable if we are trying to scope the entire logic within a function and not have anything accessible from the global scope. Counter 2 would be preferable if we want the count variable scoped globally and be accessible everywhere.
+
 */
+
 
 // counter1 code
 function counterMaker() {
@@ -45,12 +54,20 @@ function counterMaker() {
 
 const counter1 = counterMaker();
 
+console.log('task 1', counter1());
+console.log(counter1());
+console.log(counter1());
+
 // counter2 code
 let count = 0;
 
 function counter2() {
   return count++;
 }
+
+console.log('task 1', counter2());
+console.log(counter2());
+console.log(counter2());
 
 
 /* ⚾️⚾️⚾️ Task 2: inning() ⚾️⚾️⚾️
@@ -62,9 +79,11 @@ Use the inning function below to do the following:
 NOTE: This will be a callback function for the tasks below
 */
 
-function inning(/*Code Here*/){
-    /*Code Here*/
+function inning(){
+    return Math.floor(Math.random() * 3);
 }
+
+console.log('task 2', inning());
 
 
 /* ⚾️⚾️⚾️ Task 3: finalScore() ⚾️⚾️⚾️
@@ -81,9 +100,22 @@ Use the finalScore function below to do the following:
 }
 */ 
 
-function finalScore(/*code Here*/){
-  /*Code Here*/
+function finalScore(inningcb, numOfInnings){
+  let homeScore = 0;
+  let awayScore = 0;
+  for (let i = 0; i < numOfInnings; i++) {
+    homeScore = homeScore + inningcb();
+    awayScore = awayScore + inningcb();
+    if (i === numOfInnings - 1) {
+      return {
+        Home: homeScore,
+        Away: awayScore
+      }
+    }
+  }
 }
+
+console.log('task 3', finalScore(inning, 9));
 
 /* ⚾️⚾️⚾️ Task 4: getInningScore() ⚾️⚾️⚾️
 Use the getInningScore() function below to do the following:
